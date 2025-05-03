@@ -1,0 +1,270 @@
+2025-04-04 14:10:36,572 - INFO - MainThread - Script starting up.
+2025-04-04 14:10:36,572 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-04 14:10:36,572 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://localhost:5000/get_phising_data
+2025-04-04 14:10:38,456 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-04 14:10:38,479 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-04 14:10:38,479 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon
+2025-04-04 14:10:38,496 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\token.json
+2025-04-04 14:10:38,496 - INFO - MainThread - Refreshing expired credentials...
+2025-04-04 14:10:38,962 - INFO - MainThread - Refreshed and saved credentials to C:\Arun\Hackathon\token.json
+2025-04-04 14:10:38,975 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-04 14:10:40,372 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-04 14:10:40,372 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-04 14:10:40,888 - INFO - MainThread - Detected 7 new message(s). Processing...
+2025-04-04 14:10:40,888 - INFO - MainThread - --- Processing Email ID: 195fc4672d60f636 ---
+2025-04-04 14:10:41,450 - INFO - MainThread -    From: Google Notifications <notify-noreply@google.com>
+2025-04-04 14:10:41,450 - INFO - MainThread -    Subject: Google Cloud Organization is now available for your domain
+2025-04-04 14:10:41,451 - INFO - MainThread -    Identifier: <fsV1aHkJmkqu20Luyq6l2Q@notifications.google.com>
+2025-04-04 14:10:42,169 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:10:42,180 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:10:42,181 - INFO - MainThread -    Email 195fc4672d60f636 classified as not phishing.
+2025-04-04 14:10:42,925 - INFO - MainThread - Marked email 195fc4672d60f636 as read.
+2025-04-04 14:10:44,926 - INFO - MainThread - --- Processing Email ID: 195f7937949c4951 ---
+2025-04-04 14:10:45,454 - INFO - MainThread -    From: The Google Workspace Team <workspace-noreply@google.com>
+2025-04-04 14:10:45,455 - INFO - MainThread -    Subject: You have a new Google account for mausamrai.com.np
+2025-04-04 14:10:45,455 - INFO - MainThread -    Identifier: <d40d4f56038e9ccc144e35b65078163c05326093-20060652-110354466@google.com>
+2025-04-04 14:10:46,195 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:10:46,198 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:10:46,199 - INFO - MainThread -    Email 195f7937949c4951 classified as not phishing.
+2025-04-04 14:10:47,014 - INFO - MainThread - Marked email 195f7937949c4951 as read.
+2025-04-04 14:10:49,015 - INFO - MainThread - --- Processing Email ID: 195f77dba55e4f72 ---
+2025-04-04 14:10:49,501 - INFO - MainThread -    From: Google <no-reply@accounts.google.com>
+2025-04-04 14:10:49,501 - INFO - MainThread -    Subject: Critical security alert
+2025-04-04 14:10:49,501 - INFO - MainThread -    Identifier: <oIrzBHQEt7O4ySq0sv-aIQ@notifications.google.com>
+2025-04-04 14:10:50,092 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:10:50,110 - INFO - MainThread -    Classification result: phishing
+2025-04-04 14:10:50,110 - WARNING - MainThread -    ACTION: Email 195f77dba55e4f72 classified as PHISHING.
+2025-04-04 14:10:50,697 - INFO - MainThread - Warning email sent successfully. Message Id: 195ffe806cc1c376
+2025-04-04 14:10:50,711 - INFO - MainThread - Sending phishing report to dashboard: http://localhost:5000/get_phising_data
+2025-04-04 14:10:52,788 - INFO - MainThread - Successfully sent report to dashboard. Status: 200
+2025-04-04 14:10:53,395 - INFO - MainThread - Marked email 195f77dba55e4f72 as read.
+2025-04-04 14:10:55,396 - INFO - MainThread - --- Processing Email ID: 195f775c5298cfd7 ---
+2025-04-04 14:10:56,063 - INFO - MainThread -    From: The Google Workspace Team <workspace-noreply@google.com>
+2025-04-04 14:10:56,065 - INFO - MainThread -    Subject: Welcome to Google Workspace. See what you can do.
+2025-04-04 14:10:56,066 - INFO - MainThread -    Identifier: <eedcaccf36c013fceeae92195f47a125ff33c43d-20069929-111273847@google.com>
+2025-04-04 14:10:56,801 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:10:56,805 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:10:56,806 - INFO - MainThread -    Email 195f775c5298cfd7 classified as not phishing.
+2025-04-04 14:10:57,387 - INFO - MainThread - Marked email 195f775c5298cfd7 as read.
+2025-04-04 14:10:59,389 - INFO - MainThread - --- Processing Email ID: 195f7748cb2b873c ---
+2025-04-04 14:10:59,919 - INFO - MainThread -    From: The Google Workspace Team <workspace@google.com>
+2025-04-04 14:10:59,920 - INFO - MainThread -    Subject: Your Google Workspace billing information was received
+2025-04-04 14:10:59,920 - INFO - MainThread -    Identifier: <cffdb781bddbf483ba638a3cd8f1f3fa9f6ec4df-20069568-110749932@google.com>
+2025-04-04 14:11:00,658 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:11:00,659 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:11:00,660 - INFO - MainThread -    Email 195f7748cb2b873c classified as not phishing.
+2025-04-04 14:11:01,240 - INFO - MainThread - Marked email 195f7748cb2b873c as read.
+2025-04-04 14:11:03,242 - INFO - MainThread - --- Processing Email ID: 195f76e7552ddd4b ---
+2025-04-04 14:11:03,814 - INFO - MainThread -    From: The Google Workspace Team <workspace@google.com>
+2025-04-04 14:11:03,815 - INFO - MainThread -    Subject: Your Google Workspace billing information was received
+2025-04-04 14:11:03,816 - INFO - MainThread -    Identifier: <89df4de9999ae9f70381a47187b621bd2682bd51-20069568-110749932@google.com>
+2025-04-04 14:11:04,747 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:11:04,748 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:11:04,749 - INFO - MainThread -    Email 195f76e7552ddd4b classified as not phishing.
+2025-04-04 14:11:05,338 - INFO - MainThread - Marked email 195f76e7552ddd4b as read.
+2025-04-04 14:11:07,340 - INFO - MainThread - --- Processing Email ID: 195f76cbc83a187a ---
+2025-04-04 14:11:07,826 - INFO - MainThread -    From: The Google Workspace Team <workspace-noreply@google.com>
+2025-04-04 14:11:07,827 - INFO - MainThread -    Subject: You have a new Google account for mausamrai.com.np
+2025-04-04 14:11:07,828 - INFO - MainThread -    Identifier: <e7933b6ad8470189c81b7ac78a3056af0cb42533-20060652-110354466@google.com>
+2025-04-04 14:11:08,361 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:11:08,366 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:11:08,367 - INFO - MainThread -    Email 195f76cbc83a187a classified as not phishing.
+2025-04-04 14:11:08,913 - INFO - MainThread - Marked email 195f76cbc83a187a as read.
+2025-04-04 14:18:14,056 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 14:18:14,057 - INFO - MainThread - --- Processing Email ID: 195ffeddce09dc02 ---
+2025-04-04 14:18:14,749 - INFO - MainThread -    From: Hriday Khand <hridaythakuri978@gmail.com>
+2025-04-04 14:18:14,750 - INFO - MainThread -    Subject: HELLO
+2025-04-04 14:18:14,751 - INFO - MainThread -    Identifier: <CAFJuTNkyWw=s45u9b57P3txx870Ju6jT2xtLU-bNM5i01uph9g@mail.gmail.com>
+2025-04-04 14:18:16,023 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:18:16,084 - INFO - MainThread -    Classification result: phishing
+2025-04-04 14:18:16,085 - WARNING - MainThread -    ACTION: Email 195ffeddce09dc02 classified as PHISHING.
+2025-04-04 14:18:16,745 - INFO - MainThread - Warning email sent successfully. Message Id: 195ffeed5359eda7
+2025-04-04 14:18:16,746 - INFO - MainThread - Sending phishing report to dashboard: http://localhost:5000/get_phising_data
+2025-04-04 14:18:18,820 - INFO - MainThread - Successfully sent report to dashboard. Status: 200
+2025-04-04 14:18:19,514 - INFO - MainThread - Marked email 195ffeddce09dc02 as read.
+2025-04-04 14:20:22,562 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 14:20:22,562 - INFO - MainThread - --- Processing Email ID: 195fff03b73b560a ---
+2025-04-04 14:20:23,625 - INFO - MainThread -    From: Hriday Khand <hridaythakuri978@gmail.com>
+2025-04-04 14:20:23,625 - INFO - MainThread -    Subject: HELLOO
+2025-04-04 14:20:23,626 - INFO - MainThread -    Identifier: <CAFJuTN=xTXPpModwv_6fLkaDb0fpgK5m-NES68em+LvKwXcJGg@mail.gmail.com>
+2025-04-04 14:20:24,506 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 14:20:24,573 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 14:20:24,573 - INFO - MainThread -    Email 195fff03b73b560a classified as not phishing.
+2025-04-04 14:20:25,131 - INFO - MainThread - Marked email 195fff03b73b560a as read.
+2025-04-04 18:49:45,044 - INFO - MainThread - Script starting up.
+2025-04-04 18:49:45,044 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-04 18:49:45,044 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-04 18:49:45,044 - INFO - MainThread - Database logging enabled: Storing phishing details in C:\Arun\Hackathon\database.db
+2025-04-04 18:49:46,790 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-04 18:49:46,800 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-04 18:49:46,817 - INFO - MainThread - Database C:\Arun\Hackathon\database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-04 18:49:46,817 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising Mail Detection
+2025-04-04 18:49:46,822 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-04 18:49:46,822 - INFO - MainThread - Refreshing expired credentials...
+2025-04-04 18:49:47,176 - INFO - MainThread - Refreshed and saved credentials to C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-04 18:49:47,183 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-04 18:49:48,319 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-04 18:49:48,320 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-04 18:50:49,723 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 18:50:49,724 - INFO - MainThread - --- Processing Email ID: 19600e824373bc2d ---
+2025-04-04 18:50:50,190 - INFO - MainThread -    From: Arun Joshi <jarun6069@gmail.com>
+2025-04-04 18:50:50,191 - INFO - MainThread -    Subject: Urgent Acttion Required
+2025-04-04 18:50:50,192 - INFO - MainThread -    Identifier: <CACh=5r39NSpo5m44_A_79TnAwWdc7QtVsxMWDc2X-FWvZ10osQ@mail.gmail.com>
+2025-04-04 18:50:51,930 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 18:50:51,958 - INFO - MainThread -    Classification result: phishing
+2025-04-04 18:50:51,958 - WARNING - MainThread -    ACTION: Email 19600e824373bc2d classified as PHISHING.
+2025-04-04 18:50:52,536 - INFO - MainThread - Warning email sent successfully. Message Id: 19600e86b56044a8
+2025-04-04 18:50:52,537 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-04 18:50:54,593 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000002B92A2C50D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-04-04 18:50:54,604 - INFO - MainThread - Successfully logged phishing email 19600e824373bc2d to database.
+2025-04-04 18:50:55,191 - INFO - MainThread - Marked email 19600e824373bc2d as read.
+2025-04-04 18:52:59,000 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 18:52:59,000 - INFO - MainThread - --- Processing Email ID: 19600ea2b53aff4e ---
+2025-04-04 18:53:00,129 - INFO - MainThread -    From: Arun Joshi <jarun6069@gmail.com>
+2025-04-04 18:53:00,129 - INFO - MainThread -    Subject: Regarding leaaave attendence
+2025-04-04 18:53:00,130 - INFO - MainThread -    Identifier: <CACh=5r0Z6Pom_WQ8Supr=6-iMPOvVLNeRu5okguu1JLjqZJ=5w@mail.gmail.com>
+2025-04-04 18:53:01,448 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 18:53:01,450 - INFO - MainThread -    Classification result: not_phishing
+2025-04-04 18:53:01,450 - INFO - MainThread -    Email 19600ea2b53aff4e classified as not phishing.
+2025-04-04 18:53:02,032 - INFO - MainThread - Marked email 19600ea2b53aff4e as read.
+2025-04-04 18:59:24,438 - INFO - MainThread - Script starting up.
+2025-04-04 18:59:24,439 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-04 18:59:24,439 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-04 18:59:24,439 - INFO - MainThread - Database logging enabled: Storing phishing details in C:\Arun\Hackathon\database.db
+2025-04-04 18:59:26,383 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-04 18:59:26,399 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-04 18:59:26,402 - INFO - MainThread - Database C:\Arun\Hackathon\database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-04 18:59:26,403 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising Mail Detection
+2025-04-04 18:59:26,417 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-04 18:59:26,422 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-04 18:59:27,323 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-04 18:59:27,324 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-04 19:09:06,449 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 19:09:06,451 - INFO - MainThread - --- Processing Email ID: 19600f8a3e507cbd ---
+2025-04-04 19:09:06,894 - INFO - MainThread -    From: Arun Joshi <jarun6069@gmail.com>
+2025-04-04 19:09:06,895 - INFO - MainThread -    Subject: Urgent Action Required
+2025-04-04 19:09:06,896 - INFO - MainThread -    Identifier: <CACh=5r2on-knprBbWAw8rA=nuQJw4ZcpjqFB8i=GGDpjg+6SJA@mail.gmail.com>
+2025-04-04 19:09:08,375 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 19:09:08,384 - INFO - MainThread -    Classification result: phishing
+2025-04-04 19:09:08,385 - WARNING - MainThread -    ACTION: Email 19600f8a3e507cbd classified as PHISHING.
+2025-04-04 19:09:08,967 - INFO - MainThread - Warning email sent successfully. Message Id: 19600f925bda4ff3
+2025-04-04 19:09:08,969 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:09:11,047 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024F8F31D150>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-04-04 19:09:11,065 - INFO - MainThread - Successfully logged phishing email 19600f8a3e507cbd to database.
+2025-04-04 19:09:11,676 - INFO - MainThread - Marked email 19600f8a3e507cbd as read.
+2025-04-04 19:19:04,275 - INFO - MainThread - Script starting up.
+2025-04-04 19:19:04,276 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-04 19:19:04,276 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:19:04,276 - INFO - MainThread - Database logging enabled: Storing phishing details in C:\Arun\Hackathon\database.db
+2025-04-04 19:19:05,958 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-04 19:19:06,018 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-04 19:19:06,019 - INFO - MainThread - Database C:\Arun\Hackathon\database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-04 19:19:06,019 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising Mail Detection
+2025-04-04 19:19:06,022 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-04 19:19:06,026 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-04 19:19:06,946 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-04 19:19:06,947 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-04 19:19:07,402 - INFO - MainThread - Detected 2 new message(s). Processing...
+2025-04-04 19:19:07,402 - INFO - MainThread - --- Processing Email ID: 19600f70dc7449e3 ---
+2025-04-04 19:19:07,868 - INFO - MainThread -    From: Arun Joshi <jarun6069@gmail.com>
+2025-04-04 19:19:07,868 - INFO - MainThread -    Subject: Subject: Urgent: Your Account Will Be Locked in 24 Hours!
+2025-04-04 19:19:07,869 - INFO - MainThread -    Identifier: <CACh=5r0xubwHxr90PV6pa5pVdLpJROQ2cCo+jAJ15sbc=OXPoA@mail.gmail.com>
+2025-04-04 19:19:08,861 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 19:19:08,867 - INFO - MainThread -    Classification result: phishing
+2025-04-04 19:19:08,868 - WARNING - MainThread -    ACTION: Email 19600f70dc7449e3 classified as PHISHING.
+2025-04-04 19:19:09,481 - INFO - MainThread - Warning email sent successfully. Message Id: 19601024f20cbe32
+2025-04-04 19:19:09,481 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:19:11,538 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000207000D3E50>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-04-04 19:19:11,545 - INFO - MainThread - Successfully logged phishing email 19600f70dc7449e3 to database.
+2025-04-04 19:19:12,153 - INFO - MainThread - Marked email 19600f70dc7449e3 as read.
+2025-04-04 19:19:14,154 - INFO - MainThread - --- Processing Email ID: 19600f607d8c4922 ---
+2025-04-04 19:19:14,604 - INFO - MainThread -    From: Arun Joshi <honkainew123@gmail.com>
+2025-04-04 19:19:14,605 - INFO - MainThread -    Subject: Urgent: Your Account Will Be Locked in 24 Hours!
+2025-04-04 19:19:14,605 - INFO - MainThread -    Identifier: <CA+QTqv6EPk4=TpgLVwObmcrFxP76yf19X4kNWrHgJRX6ROHrxg@mail.gmail.com>
+2025-04-04 19:19:15,908 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 19:19:15,909 - INFO - MainThread -    Classification result: phishing
+2025-04-04 19:19:15,909 - WARNING - MainThread -    ACTION: Email 19600f607d8c4922 classified as PHISHING.
+2025-04-04 19:19:16,472 - INFO - MainThread - Warning email sent successfully. Message Id: 19601026a71b5644
+2025-04-04 19:19:16,473 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:19:18,521 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000207001007D0>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-04-04 19:19:18,535 - INFO - MainThread - Successfully logged phishing email 19600f607d8c4922 to database.
+2025-04-04 19:19:19,145 - INFO - MainThread - Marked email 19600f607d8c4922 as read.
+2025-04-04 19:21:22,948 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-04 19:21:22,948 - INFO - MainThread - --- Processing Email ID: 19601040b240dc06 ---
+2025-04-04 19:21:23,401 - INFO - MainThread -    From: Hriday Khand <hridaythakuri978@gmail.com>
+2025-04-04 19:21:23,401 - INFO - MainThread -    Subject: IMPORTANT
+2025-04-04 19:21:23,401 - INFO - MainThread -    Identifier: <CAFJuTNkWq8W8JJSb+OMsyeEiC6F0b7JgW=LKt-CXWxdZdv14zA@mail.gmail.com>
+2025-04-04 19:21:24,751 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-04 19:21:24,761 - INFO - MainThread -    Classification result: phishing
+2025-04-04 19:21:24,762 - WARNING - MainThread -    ACTION: Email 19601040b240dc06 classified as PHISHING.
+2025-04-04 19:21:25,350 - INFO - MainThread - Warning email sent successfully. Message Id: 196010461bbc230a
+2025-04-04 19:21:25,350 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:21:27,393 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000020700132E50>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
+2025-04-04 19:21:27,404 - INFO - MainThread - Successfully logged phishing email 19601040b240dc06 to database.
+2025-04-04 19:21:28,017 - INFO - MainThread - Marked email 19601040b240dc06 as read.
+2025-04-04 19:34:54,043 - INFO - MainThread - Script starting up.
+2025-04-04 19:34:54,045 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-04 19:34:54,045 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-04 19:34:54,045 - INFO - MainThread - Database logging enabled: Storing phishing details in C:\Arun\Hackathon\database.db
+2025-04-04 19:34:55,930 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-04 19:34:55,935 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-04 19:34:55,936 - INFO - MainThread - Database C:\Arun\Hackathon\database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-04 19:34:55,936 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising Mail Detection
+2025-04-04 19:34:55,951 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-04 19:34:55,955 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-04 19:34:56,888 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-04 19:34:56,888 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-05 12:26:50,120 - INFO - MainThread - Script starting up.
+2025-04-05 12:26:50,120 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-05 12:26:50,121 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-05 12:26:50,121 - INFO - MainThread - Database logging enabled: Storing phishing details in C:\Arun\Hackathon\database.db
+2025-04-05 12:26:51,822 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-05 12:26:51,913 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-05 12:26:51,915 - INFO - MainThread - Database C:\Arun\Hackathon\database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-05 12:26:51,915 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising Mail Detection
+2025-04-05 12:26:51,941 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-05 12:26:51,941 - INFO - MainThread - Refreshing expired credentials...
+2025-04-05 12:26:52,383 - INFO - MainThread - Refreshed and saved credentials to C:\Arun\Hackathon\Phising Mail Detection\token.json
+2025-04-05 12:26:52,400 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-05 12:26:53,592 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-05 12:26:53,593 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.
+2025-04-05 12:29:26,581 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-05 12:29:26,582 - INFO - MainThread - --- Processing Email ID: 19604b167fed8bea ---
+2025-04-05 12:29:27,060 - INFO - MainThread -    From: mausam rai <raiaroha123@gmail.com>
+2025-04-05 12:29:27,061 - INFO - MainThread -    Subject: GIFT
+2025-04-05 12:29:27,062 - INFO - MainThread -    Identifier: <CA+dhvvXToYwTAXW5hO=GURPspivSbBzxY7_RFA2HoGLVNudzpg@mail.gmail.com>
+2025-04-05 12:29:28,292 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-05 12:29:28,299 - INFO - MainThread -    Classification result: phishing
+2025-04-05 12:29:28,299 - WARNING - MainThread -    ACTION: Email 19604b167fed8bea classified as PHISHING.
+2025-04-05 12:29:28,895 - INFO - MainThread - Warning email sent successfully. Message Id: 19604b1965c73f7f
+2025-04-05 12:29:28,896 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-05 12:29:38,910 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000022A875F31D0>, 'Connection to host.docker.internal timed out. (connect timeout=10)'))
+2025-04-05 12:29:38,927 - INFO - MainThread - Successfully logged phishing email 19604b167fed8bea to database.
+2025-04-05 12:29:39,544 - INFO - MainThread - Marked email 19604b167fed8bea as read.
+2025-04-05 12:31:13,007 - INFO - MainThread - Detected 1 new message(s). Processing...
+2025-04-05 12:31:13,007 - INFO - MainThread - --- Processing Email ID: 19604b319bc4bc07 ---
+2025-04-05 12:31:13,497 - INFO - MainThread -    From: prajwalghising100@gmail.com
+2025-04-05 12:31:13,497 - INFO - MainThread -    Subject: MONEY MONEY MONEY
+2025-04-05 12:31:13,497 - INFO - MainThread -    Identifier: <1743835565828526300.6264.2041787528737997019@PRAZAL-1GD68k29>
+2025-04-05 12:31:14,009 - INFO - MainThread - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-05 12:31:14,010 - INFO - MainThread -    Classification result: phishing
+2025-04-05 12:31:14,010 - WARNING - MainThread -    ACTION: Email 19604b319bc4bc07 classified as PHISHING.
+2025-04-05 12:31:14,613 - INFO - MainThread - Warning email sent successfully. Message Id: 19604b33565604fa
+2025-04-05 12:31:14,613 - INFO - MainThread - Sending phishing report to dashboard: http://host.docker.internal:5000/get_phising_data
+2025-04-05 12:31:24,627 - ERROR - MainThread - Dashboard reporting failed: Connection error to http://host.docker.internal:5000/get_phising_data - HTTPConnectionPool(host='host.docker.internal', port=5000): Max retries exceeded with url: /get_phising_data (Caused by ConnectTimeoutError(<urllib3.connection.HTTPConnection object at 0x0000022A876331D0>, 'Connection to host.docker.internal timed out. (connect timeout=10)'))
+2025-04-05 12:31:24,646 - INFO - MainThread - Successfully logged phishing email 19604b319bc4bc07 to database.
+2025-04-05 12:31:25,251 - INFO - MainThread - Marked email 19604b319bc4bc07 as read.
+2025-04-05 15:53:37,710 - INFO - MainThread - Script starting up.
+2025-04-05 15:53:37,710 - INFO - MainThread - Monitoring Email: admin@mausamrai.com.np
+2025-04-05 15:53:37,710 - INFO - MainThread - Dashboard reporting enabled: Sending phishing alerts to http://host.docker.internal:5000/get_phising_data
+2025-04-05 15:53:37,710 - INFO - MainThread - Database logging enabled: Storing phishing details in /app/database/database.db
+2025-04-05 15:53:39,448 - INFO - MainThread - HTTP Request: GET https://api.openai.com/v1/models "HTTP/1.1 200 OK"
+2025-04-05 15:53:39,529 - INFO - MainThread - OpenAI client initialized successfully.
+2025-04-05 15:53:39,531 - INFO - MainThread - Database /app/database/database.db initialized successfully. Table 'phishing_log' ready.
+2025-04-05 15:53:39,531 - INFO - MainThread - Looking for credentials in: C:\Arun\Hackathon\Phising_Mail_Detection
+2025-04-05 15:53:39,534 - INFO - MainThread - Loaded credentials from C:\Arun\Hackathon\Phising_Mail_Detection\token.json
+2025-04-05 15:53:39,535 - INFO - MainThread - Refreshing expired credentials...
+2025-04-05 15:53:40,045 - INFO - MainThread - Refreshed and saved credentials to C:\Arun\Hackathon\Phising_Mail_Detection\token.json
+2025-04-05 15:53:40,053 - INFO - MainThread - file_cache is only supported with oauth2client<4.0.0
+2025-04-05 15:53:41,569 - INFO - MainThread - Successfully authenticated Gmail service for: admin@mausamrai.com.np
+2025-04-05 15:53:41,569 - INFO - MainThread - Starting email monitor main loop for admin@mausamrai.com.np.

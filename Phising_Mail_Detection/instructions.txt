@@ -1,0 +1,11 @@
+docker build -t gmail-phishing-monitor .
+
+
+
+docker run -d --name gmail-monitor \
+  -e OPENAI_API_KEY="your_real_openai_api_key" \
+  -e MONITORED_EMAIL_ADDRESS="admin@mausamrai.com.np" \
+  -v ${PWD}/credentials.json:/app/credentials.json \
+  -v ${PWD}/token.json:/app/token.json \
+  -v ${PWD}/email_monitor.log:/app/email_monitor.log \
+  gmail-phishing-monitor

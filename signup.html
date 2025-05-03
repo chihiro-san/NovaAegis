@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank of Islington Login</title>
+  <link rel="icon" type="image/x-icon" href="img/bank.webp">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #6e7f8d;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px 10px 10px;
+    }
+
+    .header img {
+      height: 60px;
+    }
+
+    .security-notice {
+      background: #004990;
+      color: white;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .login-form {
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .form-left {
+      width: 60%;
+    }
+
+    .form-left label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .form-left input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+      font-size: 14px;
+    }
+
+    .form-left button {
+      width: 100%;
+      padding: 10px;
+      background: #d92727;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    .form-right {
+      width: 35%;
+      text-align: center;
+    }
+
+    .form-right img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .footer {
+      background: #004990;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .footer a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="img/bank.webp" alt="Bank of Islington">
+    </div>
+
+    <div class="security-notice">
+      <strong>Important Security Notice:</strong>
+      <ol>
+        <li>Do not enter login or other sensitive information in any pop up window.</li>
+        <li>You have verified the security certificate by clicking on the padlock icon on your internet browser.</li>
+        <li>Never share your password and OTP with anyone not even with Bank Employee.</li>
+      </ol>
+    </div>
+
+    <div class="login-form">
+    <div class="form-left">
+    <form method="POST" name="signup" action="backend.php">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit" name="signup">Register</button>
+    </form>
+    </div>
+      <div class="form-right">
+        <img src="img/Bank.webp" alt="eBanking">
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="#">Terms and conditions</a> |
+      <a href="#">Manual</a><br>
+      © 2025 Bank of Islington. All Rights Reserved.
+    </div>
+  </div>
+</body>
+</html>

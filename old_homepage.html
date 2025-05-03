@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank of Islington</title>
+    <link rel="icon" type="image/x-icon" href="img/Bank.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background-color: #1A1A1A;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-panel {
+            width: 60%;
+            padding: 30px;
+            border-right: 1px solid #333;
+        }
+
+        .right-panel {
+            width: 40%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .wallet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .wallet-header h1 {
+            font-size: 24px;
+            color: #00bcd4;
+        }
+
+        .balance {
+            font-size: 30px;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .balance .npr {
+            color: #00bcd4;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .actions button {
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 30%;
+        }
+
+        .actions button:hover {
+            background-color: #008c9e;
+        }
+
+        .transaction-history {
+            margin-top: 30px;
+        }
+
+        .transaction-history table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-history th, .transaction-history td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .transaction-history th {
+            background-color: #2c2c2c;
+        }
+
+        .transaction-history td {
+            background-color: #1a1a1a;
+        }
+
+        .transaction-history .received {
+            color: #4CAF50;
+        }
+
+        .transaction-history .sent {
+            color: #f44336;
+        }
+
+        .transaction-history .swap {
+            color: #ff9800;
+        }
+    </style>
+    <script>
+        function chats() {
+            window.location.href = "internal_chat.html";
+        }
+        
+        
+        function reset() {
+            window.location.href = "reset.html";
+        } 
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel (Wallet Info) -->
+        
+        <div class="left-panel">
+            <div class="wallet-header">
+                <h1>Bank of Islington</h1>
+                <div>
+                    <span>Balance</span>
+                    <br>
+                    <span class="npr">Rs. 1,300.00</span>
+                    <br>
+                    <span>+8.16 NPR (+0.81%) 24 hrs</span>
+                </div>
+            </div>
+            <div class="balance">
+                <p>Your Balance: <span class="NPR">Rs. 1,300.00</span></p>
+            </div>
+            <div class="actions">
+                <button>Send</button>
+                <button>Receive</button>
+                <button>Swap</button>
+            </div>
+            <div class="actions">
+                <button>Top-up with Card</button>
+                <button onclick="chats()">Chat</button>
+            </div>
+            <div class="transaction-history">
+                <h3>Transaction History</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Transaction</th>
+                            <th>Amount</th>
+                            <th>Fee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="received">
+                            <td>Receive</td>
+                            <td>+44.51 NPR</td>
+                            <td>+0.08344 NPR</td>
+                        </tr>
+                        <tr class="sent">
+                            <td>Send</td>
+                            <td>-13.51 NPR</td>
+                            <td>-0.08344 NPR</td>
+                        </tr>
+                        <tr class="swap">
+                            <td>Swap</td>
+                            <td>+44.51 NPR</td>
+                            <td>+0.08344 NPR</td>
+                        </tr>
+                        <tr class="received">
+                            <td>Receive</td>
+                            <td>+44.51 NPR</td>
+                            <td>+0.08344 NPR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="actions">
+                <button onclick="reset()">Password Reset</button>
+            </div>
+        </div>
+        
+        
+        <!-- Right Panel (QR Code Removed) -->
+        <div class="right-panel">
+            <!-- In place of the QR code, you can display wallet address or any other information -->
+            <div>
+                <strong>Account details</strong>
+                <p id="welcome-message"></p>
+                <script>
+                    // Function to get a cookie by name
+                    function getCookie(name) {
+                        const value = `; ${document.cookie}`;
+                        const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) {
+                            return parts.pop().split(';').shift();
+                        }
+                        return null;
+                    }
+            
+                    // Get the 'username' cookie
+                    const username = getCookie('user');
+            
+                    // Display a message based on the cookie value
+                    if (username) {
+                        document.getElementById('welcome-message').innerHTML = `${username}`;
+                    } else {
+                        window.location.href = "login.html"
+                        document.getElementById('welcome-message').innerHTML = 'Guest';
+                    }
+                </script>
+                <p>98456782901000000001</p>
+                
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

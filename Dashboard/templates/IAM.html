@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NovaAegis IAM Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* 
+      Updated Color Palette:
+      Background:rgb(21, 21, 21) (Dark Gray-Blue)
+      Navbar: #181A1B (Darker Gray)
+      Accent: #00B2FF (Blue)
+      Text: #FFFFFF (White)
+    */
+
+    /* Make body & html take full height for flex layout */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Flex container for body so the footer sits at bottom if content is short */
+    body {
+      display: flex;
+      flex-direction: column;
+      background-color: #1F2430; /* Updated background */
+      color: #FFFFFF;
+      font-family: Arial, sans-serif;
+    }
+
+    /* Navbar styles */
+    .navbar {
+      background-color: #181A1B; /* Darker background for the navbar */
+      padding: 0.25rem 1.5rem;
+    }
+    .navbar-brand img {
+      height: 60px; /* Logo size */
+    }
+    .nav-link {
+      color: #FFFFFF !important;
+      font-weight: bold;
+      margin-right: 2rem;
+      transition: color 0.2s ease-in-out;
+    }
+    /* Change text to blue on hover */
+    .nav-link:hover {
+      color: #00B2FF !important;
+    }
+    /* Mark IAM tab as active and blue by default */
+    .nav-link.active {
+      color: #00B2FF !important;
+    }
+
+    /* Main content should expand to push footer down */
+    main {
+      flex: 1;
+      display: block;
+      padding: 0 1rem;
+    }
+
+    /* Title spacing */
+    .section-title {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      color: #00B2FF; /* Blue accent for the title */
+      text-align: center;
+      font-weight: bold;
+    }
+
+    /* Card and checklist styling */
+    .card {
+      background-color: #2A2F3A; /* Slightly lighter than background */
+      border: none;
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background-color: #181A1B; /* Same as navbar color */
+      border-bottom: 2px solid #00B2FF; /* Blue accent border */
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+    .list-group-item {
+      background-color: #2A2F3A;
+      border: none;
+      border-bottom: 1px solid #00B2FF;
+      color: #FFFFFF;
+    }
+    .list-group-item:last-child {
+      border-bottom: none;
+    }
+    .form-check-input:checked {
+      background-color: #00B2FF;
+      border-color: #00B2FF;
+    }
+
+    /* Table styles */
+    .table thead th {
+      background-color: #181A1B;
+      color: #00B2FF;
+    }
+    .table tbody td {
+      background-color: #1F2430;
+      color: #FFFFFF;
+    }
+    .table-bordered {
+      border: 2px solid #181A1B;
+    }
+    .table-bordered th, .table-bordered td {
+      border: 1px solid #00B2FF;
+    }
+
+    /* Footer (no longer pinned) */
+    .footer {
+      background-color: #181A1B;
+      color: #FFFFFF;
+      padding: 0.1rem 0;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{ url_for('static', filename='Symbol.png') }}" alt="Logo" class="me-2">
+        <span class="fw-bold text-white">Nova Genesis</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <!-- Mark this as active to show the IAM tab in blue by default -->
+            <a class="nav-link active" href="#">IAM</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <h1 class="section-title">NovaAegis IAM Dashboard</h1>
+
+    <!-- User List & Role Details -->
+    <div class="card">
+      <div class="card-header">
+        User List & Role Details
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>User Name</th>
+                <th>Role</th>
+                <th>MFA Enabled</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Alice Johnson</td>
+                <td>Teller</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Bob Smith</td>
+                <td>Manager</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Carol Davis</td>
+                <td>Admin</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td>David Wilson</td>
+                <td>Auditor</td>
+                <td>No</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td>Emily Brown</td>
+                <td>Teller</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td>Frank White</td>
+                <td>IT Support</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td>Grace Miller</td>
+                <td>Manager</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td>Henry Thompson</td>
+                <td>Teller</td>
+                <td>No</td>
+                <td>Inactive</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td>Isabella Garcia</td>
+                <td>Compliance</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td>John Martinez</td>
+                <td>Admin</td>
+                <td>Yes</td>
+                <td>Active</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- IAM Checklist -->
+    <div class="card">
+      <div class="card-header">
+        IAM Checklist
+      </div>
+      <ul class="list-group list-group-flush">
+        <!-- User List Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="userActive">
+            <label class="form-check-label" for="userActive">
+              Display all active users.
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="userInactive">
+            <label class="form-check-label" for="userInactive">
+              Include inactive or disabled accounts for review.
+            </label>
+          </div>
+        </li>
+        <!-- Role Assignments Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="roleAssignment">
+            <label class="form-check-label" for="roleAssignment">
+              Show each user’s assigned role(s).
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rolePrivileges">
+            <label class="form-check-label" for="rolePrivileges">
+              Clearly define which roles are associated with which access privileges.
+            </label>
+          </div>
+        </li>
+        <!-- Role Hierarchy Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="roleHierarchy">
+            <label class="form-check-label" for="roleHierarchy">
+              List roles in order of privilege or organizational structure.
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="roleDescription">
+            <label class="form-check-label" for="roleDescription">
+              Provide a brief description of each role’s responsibilities.
+            </label>
+          </div>
+        </li>
+        <!-- Access Control Verification Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="leastPrivilege">
+            <label class="form-check-label" for="leastPrivilege">
+              Check that every user has only the minimum permissions required for their role (least privilege).
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="elevatedPrivileges">
+            <label class="form-check-label" for="elevatedPrivileges">
+              Identify any users with elevated or inconsistent privileges.
+            </label>
+          </div>
+        </li>
+        <!-- User Authentication Status Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="mfaEnabled">
+            <label class="form-check-label" for="mfaEnabled">
+              Indicate if multi-factor authentication (MFA) is enabled for each user.
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="passwordPolicy">
+            <label class="form-check-label" for="passwordPolicy">
+              Verify that password policies are applied consistently across accounts.
+            </label>
+          </div>
+        </li>
+        <!-- Approval Status Checklist -->
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="recentRoleChanges">
+            <label class="form-check-label" for="recentRoleChanges">
+              Note whether any recent role changes have been approved.
+            </label>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="pendingRequests">
+            <label class="form-check-label" for="pendingRequests">
+              Maintain a simple checklist for pending access requests or role changes.
+            </label>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 NovaAegis. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

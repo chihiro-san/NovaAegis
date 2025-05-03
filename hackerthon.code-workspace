@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../patching-simulation"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "hackerthon"
+	}
+}

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'LucideIcons';
+            src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
+        }
+        .lucide { font-family: 'LucideIcons'; font-size: 1.25rem; line-height: 1; display: inline-block; vertical-align: middle; }
+        .code-block::-webkit-scrollbar { width: 8px; height: 8px; }
+        .code-block::-webkit-scrollbar-track { background: #2d3748; border-radius: 10px; }
+        .code-block::-webkit-scrollbar-thumb { background-color: #4a5568; border-radius: 10px; border: 2px solid #2d3748; }
+        .code-block::-webkit-scrollbar-thumb:hover { background-color: #718096; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        #phishing-emails-table-body tr:hover, #attack-types-table-body tr:hover { background-color: #4a5568; cursor: default; }
+        .status-resolved { color: #4ade80; } .status-monitoring { color: #facc15; } .status-active { color: #f87171; } .status-unknown { color: #9ca3af; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 0.5rem; font-size: 0.8rem;}
+        .legend-color-box { width: 1rem; height: 1rem; margin-right: 0.5rem; display: inline-block; border-radius: 2px; }
+        .chart-container { position: relative; min-height: 150px; height: 100%; width: 100%; }
+        .loading-text::after { content: ' .'; animation: dots 1s steps(5, end) infinite; }
+        @keyframes dots { from, 20% { color: rgba(255,255,255,0); text-shadow: .25em 0 0 rgba(255,255,255,0), .5em 0 0 rgba(255,255,255,0);} 40% { color: white; text-shadow: .25em 0 0 rgba(255,255,255,0), .5em 0 0 rgba(255,255,255,0);} 60% { text-shadow: .25em 0 0 white, .5em 0 0 rgba(255,255,255,0);} 80%, to { text-shadow: .25em 0 0 white, .5em 0 0 white;}}
+        .error-text { color: #fca5a5; }
+        #run-analysis-btn { transition: all 0.3s ease; }
+        #run-analysis-btn:disabled { cursor: not-allowed; opacity: 0.6; }
+        #run-analysis-btn.running { background-color: #fbbf24; }
+        #run-analysis-btn.running .lucide { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        /* Navbar styles */
+        .navbar {
+          background-color: #181A1B; /* Darker background for the navbar */
+          padding: 0.25rem 1.5rem;
+        }
+        .navbar-brand img {
+          height: 60px; /* Logo size */
+        }
+        .nav-link {
+          color: #FFFFFF !important;
+          font-weight: bold;
+          margin-right: 2rem;
+          transition: color 0.2s ease-in-out;
+        }
+        /* Change text to blue on hover */
+        .nav-link:hover {
+          color: #00B2FF !important;
+        }
+        /* Mark IAM tab as active and blue by default */
+        .nav-link.active {
+          color: #00B2FF !important;
+        }
+    
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans antialiased">
+    
+  
+  <div class="container mx-auto p-4 md:p-6 lg:p-8">
+
+        <header class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-bold text-cyan-400 flex items-center">
+                    <span class="lucide mr-3">&#xea88;</span> Cybersecurity Intelligence Dashboard
+                </h1>
+                <p class="text-gray-400 mt-1">Real-time threat monitoring and analysis.</p>
+            </div>
+            <button id="run-analysis-btn" class="mt-4 sm:mt-0 bg-teal-600 hover:bg-teal-700 text-white font-semibold px-4 py-2 rounded shadow flex items-center">
+                <span class="lucide mr-2">&#xe9cb;</span> Run Log Analysis
+            </button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Total Alerts (Phishing)</p>
+                        <p id="total-alerts" class="text-3xl font-bold text-yellow-400">--</p>
+                    </div>
+                    <span class="lucide text-yellow-400 text-3xl">&#xe92a;</span>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Phishing Emails</p>
+                        <p id="phishing-emails-count" class="text-3xl font-bold text-red-500">--</p>
+                    </div>
+                    <span class="lucide text-red-500 text-3xl">&#xea17;</span>
+                </div>
+            </div>
+             <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Systems Compromised</p>
+                        <p id="systems-compromised" class="text-3xl font-bold text-orange-500">--</p>
+                    </div>
+                    <span class="lucide text-orange-500 text-3xl">&#xea74;</span>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.3s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Active Threats (Last Run)</p>
+                        <p id="active-threats" class="text-3xl font-bold text-purple-500">--</p>
+                    </div>
+                    <span class="lucide text-purple-500 text-3xl">&#xe9d4;</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-8 fade-in" style="animation-delay: 0.4s;">
+            <h2 class="text-2xl font-semibold text-cyan-400 mb-4 flex items-center">
+                <span class="lucide mr-2">&#xeb19;</span> Attack Analysis (Results from Last Run)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 flex flex-col">
+                    <h3 class="text-lg font-semibold text-gray-200 mb-3">Attack Types Distribution</h3>
+                    <div class="chart-container flex-grow flex items-center justify-center bg-gray-700 rounded mb-4 min-h-[150px]">
+                        <canvas id="attack-types-chart-canvas"></canvas>
+                    </div>
+                    <div id="attack-chart-legend" class="text-xs space-y-1">
+                         <p class="text-gray-500">Run analysis to see results.</p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-200 mb-3">Attack Details</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left text-gray-300">
+                            <thead class="text-xs text-cyan-400 uppercase bg-gray-700">
+                                <tr>
+                                    <th scope="col" class="px-4 py-2">Type</th>
+                                    <th scope="col" class="px-4 py-2 text-center">Count</th>
+                                    <th scope="col" class="px-4 py-2">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="attack-types-table-body" class="divide-y divide-gray-700">
+                                <tr><td colspan="3" class="px-4 py-4 text-center text-gray-500">Run analysis to see results.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-200 mb-3">General Remediation Tips</h3>
+                    <div id="remediation-tips" class="space-y-2 text-sm text-gray-300">
+                        <p class="text-gray-500 loading-text">Loading tips</p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700">
+                    <h3 class="text-lg font-semibold text-gray-200 mb-3">Activity Feed (Last Run)</h3>
+                    <div id="activity-feed" class="space-y-1 text-sm text-gray-400 max-h-60 overflow-y-auto code-block">
+                         <p class="text-gray-500">Run analysis to see results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-2 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.5s;">
+                <h2 class="text-xl font-semibold text-cyan-400 mb-4 flex items-center">
+                    <span class="lucide mr-2">&#xea17;</span> Detected Phishing Emails
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-300">
+                        <thead class="text-xs text-cyan-400 uppercase bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-4 py-3">Timestamp</th>
+                                <th scope="col" class="px-4 py-3">Sender Email</th>
+                                <th scope="col" class="px-4 py-3">Subject</th>
+                                <th scope="col" class="px-4 py-3">Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phishing-emails-table-body" class="divide-y divide-gray-700">
+                            <tr><td colspan="4" class="px-4 py-6 text-center text-gray-500 loading-text">Loading phishing data</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 h-80 flex flex-col fade-in" style="animation-delay: 0.6s;">
+                    <h2 class="text-xl font-semibold text-cyan-400 mb-4 flex items-center">
+                        <span class="lucide mr-2">&#xeae8;</span> Suspicious Payloads Log (Last Run)
+                    </h2>
+                    <div id="command-logs" class="code-block flex-grow overflow-y-auto bg-black p-3 rounded font-mono text-xs text-green-400 scroll-smooth">
+                        <p class="text-gray-500">Run analysis to see results.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 flex-grow flex flex-col fade-in" style="animation-delay: 0.7s;">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-cyan-400 flex items-center">
+                            <span class="lucide mr-2">&#xeb2f;</span> AI Security Recommendations
+                        </h2>
+                        <button id="export-recommendations-btn" class="bg-cyan-600 hover:bg-cyan-700 text-white text-xs font-semibold px-3 py-1 rounded transition-colors duration-150 flex items-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                            <span class="lucide mr-1 text-sm">&#xe9c5;</span> Export PDF
+                        </button>
+                    </div>
+                    <div id="ai-recommendations" class="space-y-3 text-sm flex-grow overflow-y-auto max-h-60 code-block">
+                       <p class="text-gray-500">Run analysis to see results.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-500 text-sm mt-12">
+            Cybersecurity Dashboard &copy; 2025. Powered by AI Insights & Data.
+        </footer>
+
+    </div>
+
+    <script>
+        // --- API Endpoints ---
+        const API_BASE = ''; // Assuming Flask runs on the same origin
+        const API_METRICS = `${API_BASE}/api/metrics`;
+        const API_PHISHING_DATA = `${API_BASE}/api/phishing-data`;
+        const API_ANALYZE_LOGS = `${API_BASE}/api/analyze-security-logs`; // POST endpoint, now returns analysis results
+        // REMOVED Endpoints for stored analysis data:
+        // const API_ATTACK_SUMMARY = `${API_BASE}/api/attack-analysis/summary`;
+        // const API_RECENT_ANALYSIS = `${API_BASE}/api/attack-analysis/recent?limit=30`;
+        // const API_RECOMMENDATIONS = `${API_BASE}/api/attack-analysis/recommendations`;
+
+        // --- Static Data ---
+        const staticRemediationTips = [ /* ... (same as before) ... */ ];
+
+        // --- DOM Elements ---
+        const totalAlertsEl = document.getElementById('total-alerts');
+        const phishingCountEl = document.getElementById('phishing-emails-count');
+        const systemsCompromisedEl = document.getElementById('systems-compromised');
+        const activeThreatsEl = document.getElementById('active-threats');
+        const phishingTableBodyEl = document.getElementById('phishing-emails-table-body');
+        const commandLogsEl = document.getElementById('command-logs');
+        const aiRecommendationsEl = document.getElementById('ai-recommendations');
+        const attackChartLegendEl = document.getElementById('attack-chart-legend');
+        const attackTypesTableBodyEl = document.getElementById('attack-types-table-body');
+        const remediationTipsEl = document.getElementById('remediation-tips');
+        const activityFeedEl = document.getElementById('activity-feed');
+        const exportRecommendationsBtnEl = document.getElementById('export-recommendations-btn');
+        const attackChartCanvasEl = document.getElementById('attack-types-chart-canvas');
+        const runAnalysisBtnEl = document.getElementById('run-analysis-btn');
+
+        // --- Chart Instance Variable ---
+        let attackChartInstance = null;
+
+        // --- Helper Functions ---
+        function showLoading(element, message = "Loading") { /* ... (same as before) ... */ }
+        function showError(element, message = "Error loading data") { /* ... (same as before) ... */ }
+
+        // --- Function to Fetch Data (Generic) ---
+        async function fetchApiData(url, options = {}) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    let errorMsg = `HTTP error! status: ${response.status}`;
+                    try { const errData = await response.json(); errorMsg = errData.message || errData.error || errorMsg; } catch (e) {}
+                    throw new Error(errorMsg);
+                }
+                if (response.status === 204 || response.headers.get("content-length") === "0") { return null; }
+                return await response.json();
+            } catch (error) {
+                console.error(`Failed to fetch ${url}:`, error);
+                throw error;
+            }
+        }
+
+        // --- Functions to Update UI (Refactored) ---
+
+        // Updates Phishing Count & Simulated Metrics (Refreshed Periodically)
+        async function updateMetrics() {
+            try {
+                const data = await fetchApiData(API_METRICS);
+                phishingCountEl.textContent = data.phishing_emails_count ?? '0';
+                totalAlertsEl.textContent = phishingCountEl.textContent; // Base total alerts on phishing count for now
+                systemsCompromisedEl.textContent = Math.floor(Math.random() * 3); // Keep simulated
+                // activeThreatsEl is updated after analysis run
+            } catch (error) {
+                phishingCountEl.textContent = 'Err'; totalAlertsEl.textContent = 'Err'; systemsCompromisedEl.textContent = 'Err';
+            }
+        }
+
+        // Updates Phishing Email Table (Refreshed Periodically)
+        async function updatePhishingTable() {
+            showLoading(phishingTableBodyEl, "Loading phishing data");
+            try {
+                const data = await fetchApiData(API_PHISHING_DATA);
+                phishingTableBodyEl.innerHTML = '';
+                if (!data || data.length === 0) {
+                    phishingTableBodyEl.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No phishing emails found.</td></tr>'; return;
+                }
+                data.forEach(email => {
+                    const row = document.createElement('tr'); row.classList.add('hover:bg-gray-600');
+                    const risk = 'High'; const riskColor = 'text-red-500';
+                    const formattedTimestamp = email.timestamp ? new Date(email.timestamp).toLocaleString() : 'N/A';
+                    row.innerHTML = `<td class="px-4 py-3">${formattedTimestamp}</td><td class="px-4 py-3 font-medium break-all">${email.sender || 'N/A'}</td><td class="px-4 py-3">${email.subject || '(No Subject)'}</td><td class="px-4 py-3 font-semibold ${riskColor}">${risk}</td>`;
+                    phishingTableBodyEl.appendChild(row);
+                });
+            } catch (error) { showError(phishingTableBodyEl, `Error loading phishing data: ${error.message}`); }
+        }
+
+        // --- UI Updates Triggered ONLY After Analysis Run ---
+
+        // Processes analysis results and updates Chart, Table, Legend, Active Threats
+        function processAndUpdateAttackAnalysis(analysisResults) {
+            attackChartLegendEl.innerHTML = ''; // Clear
+            attackTypesTableBodyEl.innerHTML = ''; // Clear
+            activeThreatsEl.textContent = '--'; // Reset
+
+            if (!analysisResults || analysisResults.length === 0) {
+                showError(attackChartLegendEl, "No analysis results.");
+                showError(attackTypesTableBodyEl, "No analysis results.");
+                activeThreatsEl.textContent = '0';
+                if (attackChartInstance) { attackChartInstance.destroy(); attackChartInstance = null; }
+                const ctx = attackChartCanvasEl.getContext('2d');
+                if(ctx) { ctx.clearRect(0, 0, attackChartCanvasEl.width, attackChartCanvasEl.height); ctx.fillStyle = 'rgb(107, 114, 128)'; ctx.textAlign = 'center'; ctx.fillText('No analysis results', attackChartCanvasEl.width / 2, attackChartCanvasEl.height / 2); }
+                return;
+            }
+
+            // --- Calculate Summary IN JAVASCRIPT ---
+            const attackCounts = analysisResults.reduce((acc, result) => {
+                const type = result.attack_type || 'Unknown';
+                 // Exclude non-attack types from summary
+                if (!type.match(/Error:|LLM|Analysis Error|Benign\/Informational/i)) {
+                    acc[type] = (acc[type] || 0) + 1;
+                }
+                return acc;
+            }, {});
+
+            const summaryData = Object.entries(attackCounts).map(([type, count]) => {
+                 // Define colors/status maps here in JS
+                 const colorMap = {"SQL Injection": '#f87171',"Cross-Site Scripting (XSS)": '#f87171',"Command Injection": '#f87171',"Path Traversal": '#fb923c',"Malware Execution": '#fb923c',"Credential Access": '#fb923c',"Reconnaissance": '#facc15',"Log Tampering": '#a78bfa', /* No Benign here */};
+                 const statusMap = {"SQL Injection": 'Active',"Cross-Site Scripting (XSS)": 'Active',"Command Injection": 'Active',"Path Traversal": 'Active',"Malware Execution": 'Active',"Credential Access": 'Active',"Reconnaissance": 'Monitoring',"Log Tampering": 'Monitoring', /* No Benign here */};
+                 const default_color = '#9ca3af'; const default_status = 'Unknown';
+                 return { type, count, color: colorMap[type] || default_color, status: statusMap[type] || default_status };
+            }).sort((a, b) => b.count - a.count); // Sort by count desc
+
+            // Prepare data for Chart.js
+            const labels = summaryData.map(attack => attack.type);
+            const counts = summaryData.map(attack => attack.count);
+            const backgroundColors = summaryData.map(attack => attack.color);
+
+            // Update Legend
+            summaryData.forEach(attack => {
+                const item = document.createElement('div'); item.classList.add('legend-item');
+                item.innerHTML = `<span class="legend-color-box" style="background-color: ${attack.color};"></span><span>${attack.type} (${attack.count})</span>`;
+                attackChartLegendEl.appendChild(item);
+            });
+
+            // Update Table & Calculate Active Threats
+            let activeThreatCount = 0;
+            summaryData.forEach(attack => {
+                const row = document.createElement('tr'); row.classList.add('hover:bg-gray-600');
+                let statusClass = '';
+                switch (attack.status.toLowerCase()) {
+                    case 'resolved': statusClass = 'status-resolved'; break; // Should not happen based on filter above
+                    case 'monitoring': statusClass = 'status-monitoring'; activeThreatCount++; break;
+                    case 'active': statusClass = 'status-active'; activeThreatCount++; break;
+                    default: statusClass = 'status-unknown';
+                }
+                row.innerHTML = `<td class="px-4 py-2 font-medium">${attack.type}</td><td class="px-4 py-2 text-center">${attack.count}</td><td class="px-4 py-2 font-semibold ${statusClass}">${attack.status}</td>`;
+                attackTypesTableBodyEl.appendChild(row);
+            });
+             if (summaryData.length === 0) {
+                 attackTypesTableBodyEl.innerHTML = '<tr><td colspan="3" class="px-4 py-4 text-center text-gray-500">No attacks detected in last run.</td></tr>';
+             }
+
+
+            // Update Active Threats Metric
+            activeThreatsEl.textContent = activeThreatCount;
+
+            // Update/Create Chart
+            if (attackChartInstance) {
+                attackChartInstance.data.labels = labels;
+                attackChartInstance.data.datasets[0].data = counts;
+                attackChartInstance.data.datasets[0].backgroundColor = backgroundColors;
+                attackChartInstance.update();
+            } else if (attackChartCanvasEl) {
+                const ctx = attackChartCanvasEl.getContext('2d');
+                if (ctx) {
+                    attackChartInstance = new Chart(ctx, { type: 'doughnut', data: { labels: labels, datasets: [{ data: counts, backgroundColor: backgroundColors, borderColor: '#1f2937', borderWidth: 2 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+                } else { console.error("Failed to get 2D context for attack chart."); }
+            } else { console.error("Attack chart canvas element not found."); }
+             if (labels.length === 0 && attackChartInstance) { // Handle case where chart exists but data is now empty
+                attackChartInstance.destroy(); attackChartInstance = null;
+                const ctx = attackChartCanvasEl.getContext('2d');
+                if(ctx) { ctx.clearRect(0, 0, attackChartCanvasEl.width, attackChartCanvasEl.height); ctx.fillStyle = 'rgb(107, 114, 128)'; ctx.textAlign = 'center'; ctx.fillText('No attacks detected', attackChartCanvasEl.width / 2, attackChartCanvasEl.height / 2); }
+             }
+        }
+
+        // Updates Activity Feed and Suspicious Payloads Log from analysis results
+        function updateActivityFeedAndLogs(analysisResults) {
+            activityFeedEl.innerHTML = ''; // Clear
+            commandLogsEl.innerHTML = ''; // Clear
+
+            if (!analysisResults || analysisResults.length === 0) {
+                activityFeedEl.innerHTML = '<p class="text-gray-500">No activity in last analysis run.</p>';
+                commandLogsEl.innerHTML = '<p class="text-gray-500">No suspicious payloads in last analysis run.</p>';
+                return;
+            }
+
+             // Sort results by timestamp descending for display
+             analysisResults.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+            analysisResults.forEach(entry => {
+                // Activity Feed Entry
+                const pFeed = document.createElement('p'); pFeed.classList.add('py-0.5');
+                const timestamp = entry.timestamp ? new Date(entry.timestamp).toLocaleTimeString() : 'Time N/A';
+                const attackType = entry.attack_type || 'Unknown Event';
+                const ip = entry.ip || 'Unknown IP';
+                const origin = entry.origin || 'Unknown Origin';
+                pFeed.textContent = `${timestamp} - ${attackType} detected from ${ip} (Origin: ${origin})`;
+                if (attackType.match(/SQL Injection|XSS|Command Injection|Malware|Traversal|Credential/i)) pFeed.classList.add('text-red-400');
+                else if (attackType.match(/Reconnaissance|Tampering/i)) pFeed.classList.add('text-yellow-400');
+                else if (attackType.match(/Benign/i)) pFeed.classList.add('text-green-400');
+                else if (attackType.match(/Error/i)) pFeed.classList.add('text-gray-500');
+                activityFeedEl.appendChild(pFeed);
+
+                // Suspicious Payloads Log Entry (Show non-benign/error payloads)
+                if (!attackType.match(/Benign|Informational|Error|LLM|API Key Missing/i)) {
+                    const pLog = document.createElement('p'); pLog.classList.add('whitespace-pre-wrap', 'break-all');
+                    pLog.textContent = entry.payload || '(Empty Payload)';
+                    if (attackType.match(/SQL Injection|XSS|Command Injection|Malware|Traversal/i)) { pLog.classList.add('text-yellow-400', 'font-semibold'); }
+                    else { pLog.classList.add('text-green-400'); }
+                    commandLogsEl.appendChild(pLog);
+                }
+            });
+            // Scroll to top for activity feed, bottom for logs
+            activityFeedEl.scrollTop = 0;
+            commandLogsEl.scrollTop = commandLogsEl.scrollHeight;
+             if (commandLogsEl.children.length === 0) {
+                 commandLogsEl.innerHTML = '<p class="text-gray-500">No suspicious payloads detected in last run.</p>';
+             }
+        }
+
+        // Updates AI Recommendations List from analysis results
+        function updateRecommendationsUI(analysisResults) {
+            aiRecommendationsEl.innerHTML = ''; // Clear
+            exportRecommendationsBtnEl.disabled = true; // Disable button initially
+
+            if (!analysisResults || analysisResults.length === 0) {
+                aiRecommendationsEl.innerHTML = '<p class="text-gray-500">No recommendations generated in last run.</p>';
+                return;
+            }
+
+            // Extract unique recommendations IN JAVASCRIPT
+            const uniqueRecommendations = [...new Set(
+                analysisResults
+                    .map(r => r.recommendation)
+                    // Filter out placeholder/error recommendations
+                    .filter(rec => rec && !rec.match(/Error:|LLM|Analysis Error|Could not generate|API Key not configured|No specific attack detected/i))
+            )];
+
+            if (uniqueRecommendations.length === 0) {
+                aiRecommendationsEl.innerHTML = '<p class="text-gray-500">No specific recommendations generated.</p>';
+                return;
+            }
+
+            uniqueRecommendations.sort().forEach(recText => { // Sort alphabetically
+                const div = document.createElement('div'); div.dataset.recommendationText = recText;
+                div.classList.add('flex', 'items-start', 'p-3', 'bg-gray-700', 'rounded');
+                div.innerHTML = `<span class="lucide text-cyan-400 mr-3 mt-1 flex-shrink-0">&#xe967;</span><p>${recText}</p>`;
+                aiRecommendationsEl.appendChild(div);
+            });
+            exportRecommendationsBtnEl.disabled = false; // Enable button
+        }
+
+        // Updates Static Remediation Tips (Runs once on load)
+        function updateRemediationTips() {
+            remediationTipsEl.innerHTML = ''; const list = document.createElement('ul');
+            list.classList.add('list-disc', 'list-inside', 'space-y-1');
+            staticRemediationTips.forEach(tip => { const item = document.createElement('li'); item.textContent = tip; list.appendChild(item); });
+            remediationTipsEl.appendChild(list);
+        }
+
+        // --- Function to Export Recommendations to PDF ---
+        function exportRecommendationsToPdf() {
+             const recommendationElements = aiRecommendationsEl.querySelectorAll('div[data-recommendation-text]');
+             if (recommendationElements.length === 0) { alert("No recommendations available to export."); return; }
+             if (typeof window.jspdf === 'undefined') { alert("Error: jsPDF library not loaded."); console.error("jsPDF library is missing."); return; }
+             const { jsPDF } = window.jspdf; const doc = new jsPDF();
+             const title = "AI Security Recommendations Report"; const generatedDate = `Generated on: ${new Date().toLocaleString()}`;
+             const margin = 15; let yPos = 20;
+             doc.setFontSize(18); doc.text(title, margin, yPos); yPos += 10; doc.setFontSize(10); doc.text(generatedDate, margin, yPos); yPos += 15; doc.setFontSize(12);
+             recommendationElements.forEach((el, index) => {
+                 const recommendationText = `${index + 1}. ${el.dataset.recommendationText}`;
+                 const splitText = doc.splitTextToSize(recommendationText, doc.internal.pageSize.width - margin * 2);
+                 if (yPos + (splitText.length * 7) > doc.internal.pageSize.height - margin) { doc.addPage(); yPos = margin; }
+                 doc.text(splitText, margin, yPos); yPos += (splitText.length * 7) + 5;
+             });
+             const pageCount = doc.internal.getNumberOfPages();
+             for (let i = 1; i <= pageCount; i++) { doc.setPage(i); doc.setFontSize(9); doc.setTextColor(150); doc.text(`Page ${i} of ${pageCount}`, doc.internal.pageSize.width / 2, doc.internal.pageSize.height - 10, { align: 'center' }); }
+             const filename = `ai_security_recommendations_${new Date().toISOString().split('T')[0]}.pdf`;
+             doc.save(filename);
+        }
+
+        // --- Function to Trigger Log Analysis ---
+        async function triggerLogAnalysis() {
+            if (runAnalysisBtnEl.disabled) return;
+            runAnalysisBtnEl.disabled = true; runAnalysisBtnEl.classList.add('running');
+            runAnalysisBtnEl.innerHTML = `<span class="lucide mr-2">&#xe9cb;</span> Analyzing...`;
+
+            // Clear previous results immediately for better UX
+             processAndUpdateAttackAnalysis([]);
+             updateActivityFeedAndLogs([]);
+             updateRecommendationsUI([]);
+
+            try {
+                // POST request now returns the full list of analysis results
+                const analysisResults = await fetchApiData(API_ANALYZE_LOGS, { method: 'POST' });
+                console.log("Analysis Results Received:", analysisResults);
+
+                if (analysisResults) {
+                    // Process the received results and update the UI
+                    processAndUpdateAttackAnalysis(analysisResults);
+                    updateActivityFeedAndLogs(analysisResults);
+                    updateRecommendationsUI(analysisResults);
+                    alert(`Analysis complete. Processed ${analysisResults.length} log entries.`);
+                } else {
+                     alert("Analysis run, but no results were returned.");
+                     // Keep UI cleared or show 'No results' messages
+                }
+
+            } catch (error) {
+                console.error("Failed to trigger or process analysis:", error);
+                alert(`Analysis failed: ${error.message}`);
+                // Show errors in the relevant sections
+                showError(attackChartLegendEl, `Analysis failed: ${error.message}`);
+                showError(attackTypesTableBodyEl, `Analysis failed: ${error.message}`);
+                showError(activityFeedEl, `Analysis failed: ${error.message}`);
+                showError(commandLogsEl, `Analysis failed: ${error.message}`);
+                showError(aiRecommendationsEl, `Analysis failed: ${error.message}`);
+                 activeThreatsEl.textContent = 'Err';
+            } finally {
+                runAnalysisBtnEl.disabled = false; runAnalysisBtnEl.classList.remove('running');
+                runAnalysisBtnEl.innerHTML = `<span class="lucide mr-2">&#xe9cb;</span> Run Log Analysis`;
+            }
+        }
+
+        // --- Initial Load & Periodic Updates ---
+        function loadDashboardData(isInitialLoad = false) {
+            console.log("Refreshing periodic dashboard data (Phishing)...");
+            updateMetrics(); // Includes phishing count
+            updatePhishingTable();
+
+            // Static tips only need loading once
+            if (isInitialLoad) {
+                updateRemediationTips();
+                 // Show initial placeholder text for analysis sections
+                 processAndUpdateAttackAnalysis(null); // Pass null or empty to show initial state
+                 updateActivityFeedAndLogs(null);
+                 updateRecommendationsUI(null);
+            }
+
+            // REMOVED calls to update analysis sections - they only update via button click now
+            // updateAttackAnalysis();
+            // updateRecentActivityAndLogs();
+            // updateRecommendations();
+        }
+
+        // --- Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboardData(true); // Initial load
+
+            if (exportRecommendationsBtnEl) { exportRecommendationsBtnEl.addEventListener('click', exportRecommendationsToPdf); }
+            else { console.error("Export button element not found!"); }
+
+            //if (runAnalysisBtnEl) { runAnalysisBtnEl.addEventListener('click', triggerLogAnalysis); }
+            //else { console.error("Run Analysis button element not found!"); }
+            const runBtn = document.getElementById('run-analysis-btn');
+    if (!runBtn) {
+      console.error("Run Analysis button not found in DOM.");
+      return;  // Stop if the button element isn't present
+    }
+
+    // Attach click event listener to the Run Log Analysis button
+    runBtn.addEventListener('click', () => {
+        console.log('Enter here')
+      // Immediate UI feedback: change button text to "Analyzing..."
+      runBtn.textContent = 'Analyzing...';
+
+      // Call the backend endpoint to run analysis (example using fetch API)
+      fetch('/api/run-log-analysis')  // Replace with your actual endpoint or function
+        .then(response => response.json())
+        .then(data => {
+          console.log('Analysis result:', data);
+          // TODO: handle the response data (update charts, display results, etc.)
+          runBtn.textContent = 'Run Log Analysis';  // Reset button text (or set to "Completed")
+        })
+        .catch(error => {
+          console.error('Analysis request failed:', error);
+          runBtn.textContent = 'Run Log Analysis';  // Revert text on failure
+        });
+    });
+  });
+
+            // Set interval for periodic refresh (ONLY for phishing data now)
+            setInterval(() => {
+                 console.log("Periodic refresh running (Phishing only)...");
+                 updateMetrics();
+                 updatePhishingTable();
+             }, 10000); // Refresh phishing every 60 seconds
+        });
+
+    </script>
+
+</body>
+</html>

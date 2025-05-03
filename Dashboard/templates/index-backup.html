@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity Intelligence Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @font-face {
+        font-family: 'LucideIcons';
+        src: url(https://cdn.jsdelivr.net/npm/lucide-static@latest/font/Lucide.ttf) format('truetype');
+      }
+      .lucide {
+        font-family: 'LucideIcons';
+        font-size: 1.25rem; /* Adjust icon size as needed */
+        line-height: 1;
+        display: inline-block; /* Ensure proper alignment */
+        vertical-align: middle;
+      }
+      /* Custom scrollbar for code blocks */
+      .code-block::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      .code-block::-webkit-scrollbar-track {
+        background: #2d3748; /* gray-800 */
+        border-radius: 10px;
+      }
+      .code-block::-webkit-scrollbar-thumb {
+        background-color: #4a5568; /* gray-600 */
+        border-radius: 10px;
+        border: 2px solid #2d3748; /* gray-800 */
+      }
+        .code-block::-webkit-scrollbar-thumb:hover {
+        background-color: #718096; /* gray-500 */
+      }
+      /* Basic animation */
+        @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+      /* --- ADDED: Style for clickable rows --- */
+       #phishing-emails-table-body tr:hover {
+           background-color: #4a5568; /* gray-600 or adjust */
+           cursor: pointer;
+       }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans antialiased">
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+
+        <header class="mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-cyan-400 flex items-center">
+                <span class="lucide mr-3">&#xea88;</span> Cybersecurity Intelligence Dashboard
+            </h1>
+            <p class="text-gray-400 mt-1">Real-time threat monitoring and analysis.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Total Alerts</p>
+                        <p id="total-alerts" class="text-3xl font-bold text-yellow-400">--</p>
+                    </div>
+                    <span class="lucide text-yellow-400 text-3xl">&#xe92a;</span> </div>
+            </div>
+
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Phishing Emails</p>
+                        <p id="phishing-emails-count" class="text-3xl font-bold text-red-500">--</p>
+                    </div>
+                    <span class="lucide text-red-500 text-3xl">&#xea17;</span> </div>
+            </div>
+
+             <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Systems Compromised</p>
+                        <p id="systems-compromised" class="text-3xl font-bold text-orange-500">--</p>
+                    </div>
+                    <span class="lucide text-orange-500 text-3xl">&#xea74;</span> </div>
+            </div>
+
+            <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.3s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-400 uppercase">Active Threats</p>
+                        <p id="active-threats" class="text-3xl font-bold text-purple-500">--</p>
+                    </div>
+                    <span class="lucide text-purple-500 text-3xl">&#xe9d4;</span> </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <div class="lg:col-span-2 bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 fade-in" style="animation-delay: 0.4s;">
+                <h2 class="text-xl font-semibold text-cyan-400 mb-4 flex items-center">
+                    <span class="lucide mr-2">&#xea17;</span> Detected Phishing Emails (Latest 15)
+                </h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-300">
+                        <thead class="text-xs text-cyan-400 uppercase bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-4 py-3">Timestamp</th>
+                                <th scope="col" class="px-4 py-3">Sender Email</th>
+                                <th scope="col" class="px-4 py-3">Subject</th>
+                                <th scope="col" class="px-4 py-3">Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phishing-emails-table-body" class="divide-y divide-gray-700">
+                            <tr>
+                                <td colspan="4" class="px-4 py-6 text-center text-gray-500">Loading phishing data...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-6">
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 h-80 flex flex-col fade-in" style="animation-delay: 0.5s;">
+                    <h2 class="text-xl font-semibold text-cyan-400 mb-4 flex items-center">
+                        <span class="lucide mr-2">&#xeae8;</span> Suspicious Command Logs
+                    </h2>
+                    <div id="command-logs" class="code-block flex-grow overflow-y-auto bg-black p-3 rounded font-mono text-xs text-green-400 scroll-smooth">
+                        <p class="text-gray-500">Loading command logs...</p>
+                         </div>
+                </div>
+
+                <div class="bg-gray-800 p-5 rounded-lg shadow-lg border border-gray-700 flex-grow fade-in" style="animation-delay: 0.6s;">
+                    <h2 class="text-xl font-semibold text-cyan-400 mb-4 flex items-center">
+                        <span class="lucide mr-2">&#xeb2f;</span> AI Security Recommendations
+                    </h2>
+                    <div id="ai-recommendations" class="space-y-3 text-sm">
+                       <p class="text-gray-500">Loading recommendations...</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="text-center text-gray-500 text-sm mt-12">
+            Cybersecurity Dashboard &copy; 2025. Powered by AI Insights & Data.
+        </footer>
+
+    </div>
+
+    <script>
+        // --- REMOVED samplePhishingEmails ---
+
+        // --- Placeholder Data (Keep for other sections for now) ---
+        let alertCounter = 120; // Starting point for dynamic alerts (Simulated)
+
+        const sampleCommandLogs = [
+            "18:10:05 root@attacker:/# nmap -sS 192.168.1.100",
+            "18:10:15 root@attacker:/# ssh admin@192.168.1.100",
+            // ... other logs ...
+            "18:15:00 admin@victim:/$ rm -rf /var/log/*",
+        ];
+
+        const sampleRecommendations = [
+            { icon: '&#xea87;', text: "Detected `nmap` scan. Recommendation: Configure firewall rules..." },
+             // ... other recommendations ...
+            { icon: '&#xeafc;', text: "Log deletion attempt (`rm -rf /var/log`). Recommendation: Forward logs..." },
+        ];
+
+        // --- DOM Elements ---
+        const totalAlertsEl = document.getElementById('total-alerts');
+        const phishingCountEl = document.getElementById('phishing-emails-count');
+        const systemsCompromisedEl = document.getElementById('systems-compromised');
+        const activeThreatsEl = document.getElementById('active-threats');
+        const phishingTableBodyEl = document.getElementById('phishing-emails-table-body');
+        const commandLogsEl = document.getElementById('command-logs');
+        const aiRecommendationsEl = document.getElementById('ai-recommendations');
+
+        // --- Functions to Update UI ---
+
+        async function updateMetrics() {
+            // Fetch phishing count from backend API
+            try {
+                const response = await fetch('/api/metrics');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                phishingCountEl.textContent = data.phishing_emails_count ?? 'Error'; // Update phishing count
+
+            } catch (error) {
+                console.error("Failed to fetch metrics:", error);
+                phishingCountEl.textContent = 'Error';
+            }
+
+            // Simulate other metrics updates (replace with real data if available)
+            alertCounter += Math.floor(Math.random() * 3);
+            totalAlertsEl.textContent = alertCounter; // Still simulated
+            systemsCompromisedEl.textContent = Math.floor(Math.random() * 5) + 1; // Simulated
+            activeThreatsEl.textContent = Math.floor(Math.random() * 10) + 5; // Simulated
+        }
+
+        async function updatePhishingTable() {
+            try {
+                const response = await fetch('/api/phishing-data');
+                 if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json(); // Expecting an array of email objects
+
+                phishingTableBodyEl.innerHTML = ''; // Clear existing rows or loading message
+
+                if (!data || data.length === 0) {
+                    phishingTableBodyEl.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No phishing emails found in the database.</td></tr>';
+                    return;
+                }
+
+                data.forEach(email => {
+                    const row = document.createElement('tr');
+                    // Added hover effect class from CSS
+                    row.classList.add('hover:bg-gray-600', 'transition-colors', 'duration-150', 'cursor-pointer');
+
+                    // Assign static "High" risk as all are classified phishing
+                    const risk = 'High';
+                    const riskColor = 'text-red-500'; // Always red for High risk
+
+                    // Format timestamp nicely (optional)
+                    const formattedTimestamp = new Date(email.timestamp).toLocaleString(); // Adjust format as needed
+
+                    row.innerHTML = `
+                        <td class="px-4 py-3 whitespace-nowrap">${formattedTimestamp}</td>
+                        <td class="px-4 py-3 font-medium break-all">${email.sender}</td>
+                        <td class="px-4 py-3">${email.subject || '(No Subject)'}</td>
+                        <td class="px-4 py-3 font-semibold ${riskColor}">${risk}</td>
+                    `;
+                    // Optional: Add click listener to show more details later
+                    row.addEventListener('click', () => {
+                        alert(`Details:\nSender: ${email.sender}\nSubject: ${email.subject}\nTime: ${formattedTimestamp}`);
+                        // In a real app, you might fetch the full body here or open a modal
+                    });
+
+                    phishingTableBodyEl.appendChild(row);
+                });
+
+            } catch (error) {
+                console.error("Failed to fetch phishing data:", error);
+                phishingTableBodyEl.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Error loading phishing data. Check console.</td></tr>';
+            }
+        }
+
+        function updateCommandLogs() {
+           // --- This section still uses sample data ---
+           const data = sampleCommandLogs.slice(0, Math.floor(Math.random() * sampleCommandLogs.length) + 3);
+           commandLogsEl.innerHTML = '';
+           if (data.length === 0) {
+               commandLogsEl.innerHTML = '<p class="text-gray-500">No suspicious commands detected recently.</p>';
+               return;
+           }
+           data.forEach(log => {
+               const p = document.createElement('p');
+               p.textContent = log;
+               commandLogsEl.appendChild(p);
+           });
+           commandLogsEl.scrollTop = commandLogsEl.scrollHeight;
+        }
+
+        function updateRecommendations() {
+            // --- This section still uses sample data ---
+            const data = sampleRecommendations.slice(0, Math.floor(Math.random() * sampleRecommendations.length) + 1);
+            aiRecommendationsEl.innerHTML = '';
+            if (data.length === 0) {
+                aiRecommendationsEl.innerHTML = '<p class="text-gray-500">No specific recommendations at this time.</p>';
+                return;
+            }
+            data.forEach(rec => {
+                const div = document.createElement('div');
+                div.classList.add('flex', 'items-start', 'p-3', 'bg-gray-700', 'rounded');
+                div.innerHTML = `
+                    <span class="lucide text-cyan-400 mr-3 mt-1 flex-shrink-0">${rec.icon}</span>
+                    <p>${rec.text}</p>
+                `;
+                aiRecommendationsEl.appendChild(div);
+            });
+        }
+
+        // --- Initial Load & Periodic Updates ---
+        function loadDashboardData() {
+            updateMetrics(); // Fetches phishing count from backend
+            updatePhishingTable(); // Fetches phishing table data from backend
+            updateCommandLogs(); // Uses sample data
+            updateRecommendations(); // Uses sample data
+        }
+
+        // Load data when the page is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDashboardData();
+
+            // Fetch data periodically (e.g., every 30 seconds)
+            // Note: If the Python script runs infrequently, fetching less often might be better.
+            setInterval(loadDashboardData, 30000); // 30000ms = 30 seconds
+        });
+
+    </script>
+
+</body>
+</html>

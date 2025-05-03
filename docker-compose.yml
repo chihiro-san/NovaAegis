@@ -1,0 +1,66 @@
+version: '3.8' # Specify compose file version
+
+services:
+  flask_app1:
+    build:
+      context: . # Use the current directory (your_project_root) as the build context
+      dockerfile: ./Dashboard/Dockerfile # Path to the Dockerfile relative to the context
+    container_name: flask_app1
+    restart: unless-stopped
+    ports:
+      - "5001:5000" # Map host port 5001 to container port 5000
+    env_file:
+      - .env # Load environment variables from .env file in the root directory
+    environment:
+      # Explicitly define the database path for clarity, overriding any in .env if needed
+      # This ensures both containers use the exact same path inside.
+      - DATABASE_PATH=/app/database/database.db
+      # Add any other app1-specific environment variables here if needed
+      # - FLASK_ENV=development # Example
+    volumes:
+      # Mount the host database file to the fixed path inside the container
+      - ./database.db:/app/database/database.db # Source: Target (inside container)
+      # Optional: Mount app code for development (reflects changes without rebuilding image)
+      # - ./app_directory:/app
+    networks:
+      - app_network
+
+  flask_app2:
+    build:
+      context: .
+      dockerfile: ./Phising_Mail_Detection/Dockerfile # Reuse the same Dockerfile
+    container_name: flask_app2
+    restart: unless-stopped
+    # ports:
+    #   - "5002:5000" # Map host port 5002 to container port 5000 (must be different host port)
+    env_file:
+      - .env
+    environment:
+      # Ensure app2 also uses the same internal path for the database
+      - DATABASE_PATH=/app/database/database.db
+      # Add any other app2-specific environment variables here
+    volumes:
+      # Mount the SAME host database file to the SAME fixed path inside the container
+      - ./database.db:/app/database/database.db
+      # Optional: Mount app code for development
+      # - ./app_directory:/app
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge # Default network driver
+
+volumes: # Define a named volume for the database (Alternative to bind mount)
+  db_data: # This approach is often preferred over direct file bind mount
+
+# --- How to use the named volume instead of bind mount ---
+# 1. Define the volume at the end (as shown above with 'db_data:')
+# 2. Change the 'volumes:' section in EACH service like this:
+#    volumes:
+#      - db_data:/app/database # Mount the named volume to the directory
+# NOTE: With this approach, you need to ensure the database.db file exists *within* the volume.
+# Docker Compose might initialize it from the container's /app/database if it's empty,
+# or you might need an initialization script or copy the initial DB file manually into the volume
+# (`docker cp ./database.db <container_name>:/app/database/database.db`) the first time.
+# The bind mount (`./database.db:/app/database/database.db`) is simpler if the db file already exists on the host.

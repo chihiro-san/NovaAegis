@@ -1,0 +1,47 @@
+async function updatePhishingTable() {
+    try {
+        const response = await fetch('/api/phishing-data');
+         if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json(); // Expecting an array of email objects
+
+        phishingTableBodyEl.innerHTML = ''; // Clear existing rows or loading message
+
+        if (!data || data.length === 0) {
+            phishingTableBodyEl.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No phishing emails found in the database.</td></tr>';
+            return;
+        }
+
+        data.forEach(email => {
+            const row = document.createElement('tr');
+            // Added hover effect class from CSS
+            row.classList.add('hover:bg-gray-600', 'transition-colors', 'duration-150', 'cursor-pointer');
+
+            // Assign static "High" risk as all are classified phishing
+            const risk = 'High';
+            const riskColor = 'text-red-500'; // Always red for High risk
+
+            // Format timestamp nicely (optional)
+            const formattedTimestamp = new Date(email.timestamp).toLocaleString(); // Adjust format as needed
+
+            row.innerHTML = `
+                <td class="px-4 py-3 whitespace-nowrap">${formattedTimestamp}</td>
+                <td class="px-4 py-3 font-medium break-all">${email.sender}</td>
+                <td class="px-4 py-3">${email.subject || '(No Subject)'}</td>
+                <td class="px-4 py-3 font-semibold ${riskColor}">${risk}</td>
+            `;
+            // Optional: Add click listener to show more details later
+            row.addEventListener('click', () => {
+                alert(`Details:\nSender: ${email.sender}\nSubject: ${email.subject}\nTime: ${formattedTimestamp}`);
+                // In a real app, you might fetch the full body here or open a modal
+            });
+
+            phishingTableBodyEl.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Failed to fetch phishing data:", error);
+        phishingTableBodyEl.innerHTML = '<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Error loading phishing data. Check console.</td></tr>';
+    }
+}
